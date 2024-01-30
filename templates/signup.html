@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h2>Signup</h2>
+    <form id="signup-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="button" onclick="submitSignup()">Signup</button>
+    </form>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function submitSignup() {
+            // Collect input values
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Make a fetch request to the backend for signup
+            fetch('/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Redirect to the login page or handle as needed
+                window.location.href = '/login';
+            })
+            .catch(error => console.error('Error during signup:', error));
+        }
+    </script>
+</body>
+</html>
